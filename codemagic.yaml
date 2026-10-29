@@ -1,0 +1,102 @@
+# Shootly iOS derlemeleri (Codemagic bulut Mac'i).
+# Kurulum adımları: APP_STORE.md
+#
+# ios-testflight : Kendi iPhone'unda denemek için. RevenueCat anahtarı yoksa
+#                  geliştirme modunda açılır ("Pro'ya geç" ödemesiz Pro açar).
+# ios-appstore   : İncelemeye gönderilecek sürüm. Anahtar ve gerçek web
+#                  adresleri yoksa derleme bilerek durur.
+
+definitions:
+  environment: &ios_environment
+    flutter: stable
+    xcode: latest
+    cocoapods: default
+    groups:
+      - shootly            # RC_IOS_KEY (RevenueCat iOS public key)
+    vars:
+      BUNDLE_ID: com.burakkol.shootly
+      APP_STORE_APPLE_ID: "0000000000"   # App Store Connect > Uygulama > App Information > Apple ID
+    ios_signing:
+      distribution_type: app_store
+      bundle_identifier: com.burakkol.shootly
+
+  scripts:
+    - &signing
+      name: Xcode imza ayarları
+      script: xcode-project use-profiles
+    - &packages
+      name: Paketler
+      script: flutter pub get
+    - &tests
+      name: Analiz ve testler
+      script: |
+        flutter analyze
+        flutter test
+    - &build_ipa
+      name: IPA derle
+      script: |
+        LATEST=$(app-store-connect get-latest-testflight-build-number "$APP_STORE_APPLE_ID" || echo 0)
+        flutter build ipa --release \
+          --build-number=$((LATEST + 1)) \
+          --export-options-plist=/Users/builder/export_options.plist \
+          --dart-define=RC_IOS_KEY="${RC_IOS_KEY:-}"
+
+workflows:
+  ios-testflight:
+    name: iOS — TestFlight (deneme)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: ShootlyKey
+    environment: *ios_environment
+    scripts:
+      - *signing
+      - *packages
+      - *tests
+      - name: Anahtar kontrolü (uyarı)
+        script: |
+          if [ -z "${RC_IOS_KEY:-}" ]; then
+            echo "UYARI: RC_IOS_KEY yok, bu derleme geliştirme modunda açılacak."
+            echo "Bu derlemeyi App Store incelemesine GÖNDERME."
+          fi
+      - *build_ipa
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+
+  ios-appstore:
+    name: iOS — App Store (inceleme)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: ShootlyKey
+    environment: *ios_environment
+    scripts:
+      - name: Yayın kontrolleri
+        script: |
+          set -e
+          if [ -z "${RC_IOS_KEY:-}" ]; then
+            echo "HATA: RC_IOS_KEY tanımlı değil. Anahtarsız sürüm Pro'yu ücretsiz açar."
+            exit 1
+          fi
+          if grep -q "GITHUB_KULLANICI_ADI" lib/core/config/app_config.dart; then
+            echo "HATA: AppConfig içindeki web adresi hâlâ yer tutucu."
+            exit 1
+          fi
+          if grep -rq "DESTEK_EPOSTA" docs/; then
+            echo "HATA: docs/ içindeki destek e-postası hâlâ yer tutucu."
+            exit 1
+          fi
+      - *signing
+      - *packages
+      - *tests
+      - *build_ipa
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true

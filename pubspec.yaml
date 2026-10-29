@@ -1,0 +1,45 @@
+name: vitrin
+description: Shootly — pazaryeri satıcıları için tek dokunuşla ürün fotoğrafı uygulaması.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.6.0
+
+# Paketler kurulum.bat içinde `flutter pub add` ile eklenir;
+# böylece her zaman birbiriyle uyumlu güncel sürümler kurulur.
+dependencies:
+  app_settings: ^9.0.1
+  flutter:
+    sdk: flutter
+  gal: ^2.3.3
+  image: ^4.12.0
+  image_picker: ^1.2.4
+  native_cutout: ^0.4.0
+  path_provider: ^2.1.6
+  purchases_flutter: ^11.0.0
+  purchases_ui_flutter: ^11.0.0
+  share_plus: ^13.3.1
+  shared_preferences: ^2.5.6
+  url_launcher: ^6.3.3
+
+dev_dependencies:
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family: PlusJakartaSans
+      fonts:
+        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
+        - asset: assets/fonts/PlusJakartaSans-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/PlusJakartaSans-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/PlusJakartaSans-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/PlusJakartaSans-ExtraBold.ttf
+          weight: 800
