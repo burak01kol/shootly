@@ -7,7 +7,7 @@ abstract final class AppConfig {
   static const appName = 'Shootly';
 
   /// Ayarlar ekranında gösterilen sürüm; pubspec.yaml `version` ile aynı tutulmalı.
-  static const appVersion = '0.1.0';
+  static const appVersion = '1.0.0';
 
   /// RevenueCat public API anahtarları. Derlerken verilir:
   /// `flutter run --dart-define=RC_ANDROID_KEY=goog_xxx`

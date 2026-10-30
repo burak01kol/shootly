@@ -11,7 +11,7 @@ imzalar ve App Store Connect'e yükler.
 | Team ID | `54GXF32H4L` |
 | Minimum iOS | 17.0 (arka plan silme Apple Vision ile iOS 17 ister) |
 | Cihaz | Yalnızca iPhone, yalnızca dikey |
-| Sürüm | 0.1.0 (`pubspec.yaml` → `version`) |
+| Sürüm | **1.0.0** (`pubspec.yaml` → `version`; App Store'daki sürüm kaydı "1.0" ile eşleşmeli) |
 
 ---
 
@@ -164,7 +164,7 @@ Fotoğraflar yalnızca cihazda işlendiği için "toplanan veri" sayılmaz.
 ## 11. İncelemeye gönder
 
 1. Codemagic → **`ios-appstore`** workflow (anahtar + adresler dolu olmalı).
-2. App Store Connect → Shootly → sürüm **0.1.0** → **Build** bölümünden yeni build'i seç.
+2. App Store Connect → Shootly → sürüm **1.0** → **Build** bölümünden yeni build'i (1.0.0) seç.
 3. **Export Compliance:** Info.plist'te `ITSAppUsesNonExemptEncryption = NO` olduğu için sorulmaz.
 4. Abonelik ürünlerini sürüme ekle ("In-App Purchases and Subscriptions" bölümü), **Submit for Review**.
 
