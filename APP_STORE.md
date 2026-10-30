@@ -60,7 +60,8 @@ imzalar ve App Store Connect'e yükler.
    **iOS provisioning profiles → Fetch profiles** (`com.burakkol.shootly`, App Store)
 4. **Environment variables** → grup adı **`shootly`**:
    - `RC_IOS_KEY` = RevenueCat iOS public key (`appl_...`), Secret işaretle
-   - TestFlight denemesi için şimdilik boş bırakılabilir.
+   - Yalnızca `ios-appstore` akışı bu grubu ister; `ios-testflight` grup olmadan da çalışır
+     (o zaman uygulama geliştirme modunda açılır).
 
 ## 6. İlk derleme → kendi iPhone'unda dene
 

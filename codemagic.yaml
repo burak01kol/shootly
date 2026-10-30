@@ -11,8 +11,6 @@ definitions:
     flutter: stable
     xcode: latest
     cocoapods: default
-    groups:
-      - shootly            # RC_IOS_KEY (RevenueCat iOS public key)
     vars:
       BUNDLE_ID: com.burakkol.shootly
       APP_STORE_APPLE_ID: "6828748444"   # App Store Connect > Shootly > App Information > Apple ID
@@ -73,7 +71,10 @@ workflows:
     max_build_duration: 60
     integrations:
       app_store_connect: ShootlyKey
-    environment: *ios_environment
+    environment:
+      <<: *ios_environment
+      groups:
+        - shootly          # RC_IOS_KEY (RevenueCat iOS public key) — yalnız bu akış ister
     scripts:
       - name: Yayın kontrolleri
         script: |
