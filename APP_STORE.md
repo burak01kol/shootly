@@ -6,7 +6,9 @@ imzalar ve App Store Connect'e yükler.
 | Bilgi | Değer |
 |---|---|
 | Uygulama adı | Shootly |
-| Paket kimliği (Bundle ID) | `com.burakkol.shootly` — ilk yüklemeden sonra değişmez |
+| Paket kimliği (Bundle ID) | `com.burakkol.shootly` — kayıtlı ✅, ilk yüklemeden sonra değişmez |
+| App Store Connect Apple ID | `6828748444` ✅ |
+| Team ID | `54GXF32H4L` |
 | Minimum iOS | 17.0 (arka plan silme Apple Vision ile iOS 17 ister) |
 | Cihaz | Yalnızca iPhone, yalnızca dikey |
 | Sürüm | 0.1.0 (`pubspec.yaml` → `version`) |
@@ -19,7 +21,7 @@ imzalar ve App Store Connect'e yükler.
 |---|---|---|
 | `lib/core/config/app_config.dart` → `_webBase` | `https://burak01kol.github.io/shootly` | ✅ |
 | `docs/privacy.html`, `docs/index.html` → destek e-postası | `kol.burak@icloud.com` | ✅ |
-| `codemagic.yaml` → `APP_STORE_APPLE_ID` | Adım 3'te çıkan sayısal Apple ID | ⏳ |
+| `codemagic.yaml` → `APP_STORE_APPLE_ID` | `6828748444` | ✅ |
 
 `ios-appstore` akışı bunlardan biri eksikse derlemeyi bilerek durdurur.
 

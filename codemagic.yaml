@@ -15,7 +15,7 @@ definitions:
       - shootly            # RC_IOS_KEY (RevenueCat iOS public key)
     vars:
       BUNDLE_ID: com.burakkol.shootly
-      APP_STORE_APPLE_ID: "0000000000"   # App Store Connect > Uygulama > App Information > Apple ID
+      APP_STORE_APPLE_ID: "6828748444"   # App Store Connect > Shootly > App Information > Apple ID
     ios_signing:
       distribution_type: app_store
       bundle_identifier: com.burakkol.shootly
