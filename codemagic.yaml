@@ -72,9 +72,17 @@ workflows:
     integrations:
       app_store_connect: ShootlyKey
     environment:
-      <<: *ios_environment
+      flutter: stable
+      xcode: latest
+      cocoapods: default
       groups:
         - shootly          # RC_IOS_KEY (RevenueCat iOS public key) — yalnız bu akış ister
+      vars:
+        BUNDLE_ID: com.burakkol.shootly
+        APP_STORE_APPLE_ID: "6828748444"
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.burakkol.shootly
     scripts:
       - name: Yayın kontrolleri
         script: |
