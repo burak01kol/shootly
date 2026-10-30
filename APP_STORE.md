@@ -128,7 +128,10 @@ imzalar ve App Store Connect'e yükler.
 > Kullanım Koşulları: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 
 **Anahtar kelimeler (100):**
-`arka plan silme,ürün fotoğrafı,trendyol,hepsiburada,e-ticaret,beyaz zemin,katalog,satıcı,n11`
+`arka plan silme,ürün fotoğrafı,pazaryeri,e-ticaret,beyaz zemin,katalog,satıcı,dekupe,stüdyo,ilan`
+
+> Başka şirketlerin marka adlarını (Trendyol, Hepsiburada, n11, Amazon…) anahtar kelimelere
+> **yazma**: Kural 2.3.7 gereği red sebebidir. Açıklamada "… ölçülerinde" diye bilgi vermek serbesttir.
 
 **Ekran görüntüleri:** `store/screenshots/` (iPhone 6.9", 1320 × 2868) — en az 3, en fazla 10.
 
@@ -175,3 +178,6 @@ Fotoğraflar yalnızca cihazda işlendiği için "toplanan veri" sayılmaz.
 - [ ] Paid Apps sözleşmesi aktif, abonelik ürünleri "Ready to Submit"
 - [ ] Ekran görüntüleri gerçek uygulamayı gösteriyor
 - [ ] Açıklamada iOS 17 gerektiği ve abonelik koşulları yazıyor
+- [ ] Anahtar kelimelerde marka adı yok (Kural 2.3.7)
+- [ ] RevenueCat'te Offering "current" + aylık/yıllık paketler + yayınlanmış Paywall var;
+      TestFlight'ta "Pro'ya geç" abonelik ekranını açıyor

@@ -1,8 +1,9 @@
 /// Kök `MaterialApp` widget'ı.
-/// Shootly temasını uygular ve ilk açılışta onboarding mi ana sayfa mı gösterileceğini belirler.
+/// Shootly temasını ve Türkçe dilini uygular; ilk açılışta onboarding mi ana sayfa mı gösterileceğini belirler.
 library;
 
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 import '../core/config/app_config.dart';
 import '../core/di/app_services.dart';
@@ -24,6 +25,10 @@ class ShootlyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
         themeMode: ThemeMode.light,
+        // Uygulama yalnızca Türkçe; menüler ve sistem metinleri de Türkçe görünür.
+        locale: const Locale('tr'),
+        supportedLocales: const [Locale('tr')],
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
         home: services.preferences.onboardingSeen
             ? const HomePage()
             : const OnboardingPage(),
