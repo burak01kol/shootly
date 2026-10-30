@@ -8,6 +8,7 @@ import '../../app/theme.dart';
 import '../../core/di/app_services.dart';
 import '../../core/widgets/shootly_wordmark.dart';
 import '../home/home_page.dart';
+import '../../app/l10n.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -17,33 +18,33 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  static const _slides = [
-    _Slide(
-      icon: Icons.photo_camera_rounded,
-      step: '01',
-      title: 'Tek dokunuşla çek.',
-      body: 'Ürününü telefonunla çek ya da galeriden seç. Hepsi bu kadar.',
-    ),
-    _Slide(
-      icon: Icons.auto_awesome_rounded,
-      step: '02',
-      title: 'Arka plan saniyede gider.',
-      body: 'Yapay zekâ ürünü ayırır ve temiz beyaz zemine oturtur. '
-          'İnternet gerekmez.',
-    ),
-    _Slide(
-      icon: Icons.storefront_rounded,
-      step: '03',
-      title: 'Pazaryerine hazır.',
-      body: 'Trendyol, Hepsiburada, n11 ve Amazon ölçülerinde, '
-          'barkodla adlandırılıp galerine kaydedilir.',
-    ),
-  ];
+  static const _slideCount = 3;
+
+  static List<_Slide> _slidesFor(AppLocalizations l10n) => [
+        _Slide(
+          icon: Icons.photo_camera_rounded,
+          step: '01',
+          title: l10n.onboarding1Title,
+          body: l10n.onboarding1Body,
+        ),
+        _Slide(
+          icon: Icons.auto_awesome_rounded,
+          step: '02',
+          title: l10n.onboarding2Title,
+          body: l10n.onboarding2Body,
+        ),
+        _Slide(
+          icon: Icons.storefront_rounded,
+          step: '03',
+          title: l10n.onboarding3Title,
+          body: l10n.onboarding3Body,
+        ),
+      ];
 
   final _pageController = PageController();
   int _index = 0;
 
-  bool get _isLast => _index == _slides.length - 1;
+  bool get _isLast => _index == _slideCount - 1;
 
   @override
   void dispose() {
@@ -87,9 +88,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   if (!_isLast)
                     TextButton(
                       onPressed: _finish,
-                      child: const Text(
-                        'Geç',
-                        style: TextStyle(color: ShootlyColors.muted),
+                      child: Text(
+                        context.l10n.onboardingSkip,
+                        style: const TextStyle(color: ShootlyColors.muted),
                       ),
                     ),
                 ],
@@ -98,14 +99,21 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 child: PageView(
                   controller: _pageController,
                   onPageChanged: (index) => setState(() => _index = index),
-                  children: [for (final slide in _slides) _SlideView(slide)],
+                  children: [
+                    for (final slide in _slidesFor(context.l10n))
+                      _SlideView(slide),
+                  ],
                 ),
               ),
-              _PageDots(count: _slides.length, index: _index),
+              _PageDots(count: _slideCount, index: _index),
               const SizedBox(height: 24),
               FilledButton(
                 onPressed: _isLast ? _finish : _next,
-                child: Text(_isLast ? 'Hadi başlayalım' : 'Devam'),
+                child: Text(
+                  _isLast
+                      ? context.l10n.onboardingStart
+                      : context.l10n.onboardingNext,
+                ),
               ),
             ],
           ),

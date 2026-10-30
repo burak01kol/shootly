@@ -11,6 +11,7 @@ import '../../core/config/app_config.dart';
 import '../../core/di/app_services.dart';
 import '../../core/services/export_service.dart';
 import '../../core/widgets/permission_sheet.dart';
+import '../../app/l10n.dart';
 
 class ExportResultPage extends StatefulWidget {
   const ExportResultPage({
@@ -48,14 +49,11 @@ class _ExportResultPageState extends State<ExportResultPage> {
     }
   }
 
-  String _statusText(int count) => switch (_result) {
+  String _statusText(AppLocalizations l10n, int count) => switch (_result) {
         GallerySaveResult.saved =>
-          '$count görsel galerinde, ${AppConfig.galleryAlbum} albümünde.',
-        GallerySaveResult.denied =>
-          '$count görsel hazır. Galeriye kaydetmek için izin gerekiyor; '
-              'istersen "Paylaş" ile de gönderebilirsin.',
-        GallerySaveResult.failed =>
-          '$count görsel hazır, ancak galeriye kaydedilemedi.',
+          l10n.resultSaved(count, AppConfig.galleryAlbum),
+        GallerySaveResult.denied => l10n.resultDenied(count),
+        GallerySaveResult.failed => l10n.resultFailed(count),
       };
 
   Future<void> _share() => ServicesScope.of(context).exporter.share(widget.files);
@@ -67,12 +65,13 @@ class _ExportResultPageState extends State<ExportResultPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final count = widget.files.length;
+    final l10n = context.l10n;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         actions: [
           IconButton(
-            tooltip: 'Kapat',
+            tooltip: l10n.close,
             onPressed: _newShoot,
             icon: const Icon(Icons.close_rounded),
           ),
@@ -88,10 +87,10 @@ class _ExportResultPageState extends State<ExportResultPage> {
                 children: [
                   _StatusBadge(saved: _saved),
                   const SizedBox(height: 18),
-                  Text('Hazır!', style: theme.textTheme.headlineLarge),
+                  Text(l10n.resultTitle, style: theme.textTheme.headlineLarge),
                   const SizedBox(height: 6),
                   Text(
-                    _statusText(count),
+                    _statusText(l10n, count),
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: ShootlyColors.muted,
                     ),
@@ -103,8 +102,8 @@ class _ExportResultPageState extends State<ExportResultPage> {
                       icon: const Icon(Icons.refresh_rounded),
                       label: Text(
                         _result == GallerySaveResult.denied
-                            ? 'İzin ver ve kaydet'
-                            : 'Tekrar kaydet',
+                            ? l10n.grantAndSave
+                            : l10n.retrySave,
                       ),
                     ),
                   ],
@@ -138,7 +137,7 @@ class _ExportResultPageState extends State<ExportResultPage> {
                 child: OutlinedButton.icon(
                   onPressed: _share,
                   icon: const Icon(Icons.ios_share_rounded),
-                  label: const Text('Paylaş'),
+                  label: Text(l10n.share),
                 ),
               ),
               const SizedBox(width: 12),
@@ -146,7 +145,7 @@ class _ExportResultPageState extends State<ExportResultPage> {
                 child: FilledButton.icon(
                   onPressed: _newShoot,
                   icon: const Icon(Icons.photo_camera_rounded),
-                  label: const Text('Yeni çekim'),
+                  label: Text(l10n.newShoot),
                 ),
               ),
             ],

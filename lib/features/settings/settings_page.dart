@@ -1,5 +1,5 @@
 /// Ayarlar ekranı: Pro abonelik durumu, satın alımları geri yükleme, gizlilik
-/// politikası / kullanım koşulları / destek bağlantıları, tanıtımı yeniden gösterme ve sürüm.
+/// politikası / kullanım koşulları / destek bağlantıları, dil seçimi, tanıtımı yeniden gösterme ve sürüm.
 library;
 
 import 'package:flutter/material.dart';
@@ -9,40 +9,40 @@ import '../../app/theme.dart';
 import '../../core/config/app_config.dart';
 import '../../core/di/app_services.dart';
 import '../onboarding/onboarding_page.dart';
+import 'widgets/language_sheet.dart';
+import '../../app/l10n.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
 
-  static const _proPerks = [
-    'Sınırsız günlük çekim',
-    'Tüm pazaryeri ölçüleri ve özel ölçü',
-    'Renkli zeminler ve zemin gölgesi',
-    'Tek seferde ${AppConfig.maxPhotosPerProduct} fotoğraf',
-  ];
+  static List<String> _proPerks(AppLocalizations l10n) => [
+        l10n.perkUnlimited,
+        l10n.perkSizes,
+        l10n.perkBackdrops,
+        l10n.perkBatch(AppConfig.maxPhotosPerProduct),
+      ];
 
   Future<void> _restore(BuildContext context) async {
     final messenger = ScaffoldMessenger.of(context);
+    final l10n = context.l10n;
     final restored = await ServicesScope.of(context).subscription.restore();
     messenger.showSnackBar(
       SnackBar(
-        content: Text(
-          restored
-              ? 'Pro aboneliğin geri yüklendi.'
-              : 'Geri yüklenecek bir abonelik bulunamadı.',
-        ),
+        content: Text(restored ? l10n.restoreSuccess : l10n.restoreNone),
       ),
     );
   }
 
   Future<void> _openLink(BuildContext context, String url) async {
     final messenger = ScaffoldMessenger.of(context);
+    final message = context.l10n.linkFailed;
     final opened = await launchUrl(
       Uri.parse(url),
       mode: LaunchMode.externalApplication,
     );
     if (!opened) {
       messenger.showSnackBar(
-        const SnackBar(content: Text('Bağlantı açılamadı.')),
+        SnackBar(content: Text(message)),
       );
     }
   }
@@ -58,68 +58,79 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final subscription = ServicesScope.of(context).subscription;
+    final services = ServicesScope.of(context);
+    final subscription = services.subscription;
+    final l10n = context.l10n;
     return ListenableBuilder(
       listenable: subscription,
       builder: (context, _) => Scaffold(
-        appBar: AppBar(title: const Text('Ayarlar')),
+        appBar: AppBar(title: Text(l10n.settings)),
         body: ListView(
           padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
           children: [
             _ProCard(
               isPro: subscription.isPro,
-              perks: _proPerks,
+              perks: _proPerks(l10n),
               onUpgrade: subscription.showPaywall,
             ),
             const SizedBox(height: 24),
-            const _GroupTitle('HESAP'),
+            _GroupTitle(l10n.groupAccount),
             _SettingsTile(
               icon: Icons.restore_rounded,
-              title: 'Satın alımları geri yükle',
+              title: l10n.restorePurchases,
               onTap: () => _restore(context),
             ),
             const SizedBox(height: 24),
-            const _GroupTitle('YASAL VE DESTEK'),
+            _GroupTitle(l10n.groupLegal),
             _SettingsTile(
               icon: Icons.privacy_tip_outlined,
-              title: 'Gizlilik politikası',
+              title: l10n.privacyPolicy,
               onTap: () => _openLink(context, AppConfig.privacyPolicyUrl),
             ),
             _SettingsTile(
               icon: Icons.description_outlined,
-              title: 'Kullanım koşulları',
+              title: l10n.termsOfUse,
               onTap: () => _openLink(context, AppConfig.termsOfUseUrl),
             ),
             _SettingsTile(
               icon: Icons.help_outline_rounded,
-              title: 'Destek',
+              title: l10n.support,
               onTap: () => _openLink(context, AppConfig.supportUrl),
             ),
             const SizedBox(height: 24),
-            const _GroupTitle('UYGULAMA'),
+            _GroupTitle(l10n.groupApp),
+            _SettingsTile(
+              icon: Icons.language_rounded,
+              title: l10n.language,
+              trailing: services.language.language.nativeName,
+              onTap: () => showLanguageSheet(context),
+            ),
             _SettingsTile(
               icon: Icons.slideshow_rounded,
-              title: 'Tanıtımı tekrar göster',
+              title: l10n.replayOnboarding,
               onTap: () => _replayOnboarding(context),
             ),
-            const _SettingsTile(
+            _SettingsTile(
               icon: Icons.info_outline_rounded,
-              title: 'Sürüm',
+              title: l10n.version,
               trailing: AppConfig.appVersion,
             ),
             const SizedBox(height: 28),
-            const Row(
+            Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.lock_outline_rounded,
                   size: 18,
                   color: ShootlyColors.muted,
                 ),
-                SizedBox(width: 10),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
-                    'Fotoğrafların cihazında işlenir; hiçbir sunucuya gönderilmez.',
-                    style: TextStyle(color: ShootlyColors.muted, height: 1.4),
+                    l10n.privacyNote,
+                    style: const TextStyle(
+                      color: ShootlyColors.muted,
+                      height: 1.4,
+                    ),
                   ),
                 ),
               ],
@@ -155,7 +166,7 @@ class _ProCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            isPro ? 'Shootly Pro aktif' : 'Shootly Pro',
+            isPro ? context.l10n.proActive : context.l10n.proTitle,
             style: onInk.copyWith(fontSize: 22, fontWeight: FontWeight.w800),
           ),
           const SizedBox(height: 14),
@@ -183,13 +194,11 @@ class _ProCard extends StatelessWidget {
                 backgroundColor: Colors.white,
                 foregroundColor: ShootlyColors.ink,
               ),
-              child: const Text("Pro'ya geç"),
+              child: Text(context.l10n.proUpgrade),
             ),
             const SizedBox(height: 12),
             Text(
-              'Abonelik, dönem bitmeden en az 24 saat önce iptal edilmezse '
-              'otomatik yenilenir. App Store hesap ayarlarından yönetebilir '
-              've iptal edebilirsin.',
+              context.l10n.subscriptionTerms,
               style: onInk.copyWith(
                 color: Colors.white70,
                 fontSize: 12,
@@ -204,7 +213,7 @@ class _ProCard extends StatelessWidget {
 }
 
 class _GroupTitle extends StatelessWidget {
-  /// [text] Türkçe büyük harf kuralı için hazır büyük harfle verilir.
+  /// [text] dilin büyük harf kuralı için çeviride hazır büyük harfle gelir.
   const _GroupTitle(this.text);
 
   final String text;

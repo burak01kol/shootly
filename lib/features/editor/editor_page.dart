@@ -15,6 +15,7 @@ import 'widgets/custom_size_sheet.dart';
 import 'widgets/photo_strip.dart';
 import 'widgets/preview_canvas.dart';
 import 'widgets/settings_panel.dart';
+import '../../app/l10n.dart';
 
 class EditorPage extends StatefulWidget {
   const EditorPage({super.key, required this.sourcePaths});
@@ -114,7 +115,7 @@ class _EditorPageState extends State<EditorPage> {
     } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Görseller hazırlanamadı. Tekrar dene.')),
+          SnackBar(content: Text(context.l10n.exportFailed)),
         );
       }
     } finally {
@@ -135,8 +136,8 @@ class _EditorPageState extends State<EditorPage> {
           appBar: AppBar(
             title: Text(
               _controller.photos.length > 1
-                  ? '${_controller.photos.length} fotoğraf'
-                  : 'Önizleme',
+                  ? context.l10n.editorTitleMultiple(_controller.photos.length)
+                  : context.l10n.editorTitleSingle,
             ),
           ),
           body: ListView(
@@ -166,9 +167,9 @@ class _EditorPageState extends State<EditorPage> {
               TextField(
                 controller: _barcodeController,
                 textInputAction: TextInputAction.done,
-                decoration: const InputDecoration(
-                  hintText: 'Barkod veya ürün kodu (isteğe bağlı)',
-                  prefixIcon: Icon(Icons.qr_code_2_rounded),
+                decoration: InputDecoration(
+                  hintText: context.l10n.barcodeHint,
+                  prefixIcon: const Icon(Icons.qr_code_2_rounded),
                 ),
               ),
             ],
@@ -187,7 +188,7 @@ class _EditorPageState extends State<EditorPage> {
                         ),
                       )
                     : const Icon(Icons.check_rounded),
-                label: Text(_buttonLabel(readyCount)),
+                label: Text(_buttonLabel(context.l10n, readyCount)),
               ),
             ),
           ),
@@ -196,12 +197,12 @@ class _EditorPageState extends State<EditorPage> {
     );
   }
 
-  String _buttonLabel(int readyCount) {
-    if (_controller.isProcessing) return 'Arka plan siliniyor…';
-    if (_exporting) return 'Hazırlanıyor…';
-    if (readyCount == 0) return 'Hazır fotoğraf yok';
+  String _buttonLabel(AppLocalizations l10n, int readyCount) {
+    if (_controller.isProcessing) return l10n.buttonRemoving;
+    if (_exporting) return l10n.buttonPreparing;
+    if (readyCount == 0) return l10n.buttonNoReady;
     return readyCount > 1
-        ? 'Hazırla ve kaydet ($readyCount)'
-        : 'Hazırla ve kaydet';
+        ? l10n.buttonExportCount(readyCount)
+        : l10n.buttonExport;
   }
 }

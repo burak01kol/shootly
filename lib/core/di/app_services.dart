@@ -13,6 +13,7 @@ import '../services/app_preferences.dart';
 import '../services/background_remover.dart';
 import '../services/export_service.dart';
 import '../services/image_composer.dart';
+import '../services/language_controller.dart';
 import '../services/subscription_service.dart';
 import '../services/usage_limiter.dart';
 
@@ -24,6 +25,7 @@ class AppServices {
     required this.usage,
     required this.remover,
     required this.exporter,
+    required this.language,
   });
 
   final AppPreferences preferences;
@@ -31,6 +33,7 @@ class AppServices {
   final UsageLimiter usage;
   final BackgroundRemover remover;
   final ExportService exporter;
+  final LanguageController language;
 
   static Future<AppServices> create() async {
     final prefs = await SharedPreferences.getInstance();
@@ -44,12 +47,14 @@ class AppServices {
           ),
     );
 
+    final preferences = AppPreferences(prefs);
     return AppServices(
-      preferences: AppPreferences(prefs),
+      preferences: preferences,
       subscription: subscription,
       usage: UsageLimiter(prefs),
       remover: remover,
       exporter: const ExportService(ImageComposer()),
+      language: LanguageController(preferences),
     );
   }
 

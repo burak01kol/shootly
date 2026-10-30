@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 
 import '../../../app/theme.dart';
 import '../../../core/models/canvas_size.dart';
+import '../../../app/l10n.dart';
 
 /// Kullanıcının seçtiği özel ölçü.
 typedef CustomSize = ({int width, int height});
@@ -38,13 +39,14 @@ class CustomSizeSheet extends StatefulWidget {
 }
 
 class _CustomSizeSheetState extends State<CustomSizeSheet> {
-  static const _presets = [
-    (label: 'Kare', ratio: '1:1', width: 2000, height: 2000),
-    (label: 'Dikey', ratio: '4:5', width: 1600, height: 2000),
-    (label: 'Portre', ratio: '3:4', width: 1500, height: 2000),
-    (label: 'Hikâye', ratio: '9:16', width: 1080, height: 1920),
-    (label: 'Yatay', ratio: '16:9', width: 1920, height: 1080),
-  ];
+  static List<({String label, String ratio, int width, int height})>
+      _presetsFor(AppLocalizations l10n) => [
+            (label: l10n.presetSquare, ratio: '1:1', width: 2000, height: 2000),
+            (label: l10n.presetVertical, ratio: '4:5', width: 1600, height: 2000),
+            (label: l10n.presetPortrait, ratio: '3:4', width: 1500, height: 2000),
+            (label: l10n.presetStory, ratio: '9:16', width: 1080, height: 1920),
+            (label: l10n.presetLandscape, ratio: '16:9', width: 1920, height: 1080),
+          ];
 
   late final _widthController =
       TextEditingController(text: '${widget.initial.width}');
@@ -78,6 +80,7 @@ class _CustomSizeSheetState extends State<CustomSizeSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     final keyboard = MediaQuery.viewInsetsOf(context).bottom;
     return Padding(
       padding: EdgeInsets.fromLTRB(24, 0, 24, 24 + keyboard),
@@ -85,10 +88,10 @@ class _CustomSizeSheetState extends State<CustomSizeSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text('Özel ölçü', style: theme.textTheme.headlineSmall),
+          Text(l10n.customSizeTitle, style: theme.textTheme.headlineSmall),
           const SizedBox(height: 6),
           Text(
-            'Hazır bir oran seç ya da ölçüyü kendin yaz.',
+            l10n.customSizeSubtitle,
             style: theme.textTheme.bodyMedium?.copyWith(
               color: ShootlyColors.muted,
             ),
@@ -98,7 +101,7 @@ class _CustomSizeSheetState extends State<CustomSizeSheet> {
             spacing: 8,
             runSpacing: 8,
             children: [
-              for (final preset in _presets)
+              for (final preset in _presetsFor(l10n))
                 _PresetTile(
                   label: preset.label,
                   ratio: preset.ratio,
@@ -113,7 +116,7 @@ class _CustomSizeSheetState extends State<CustomSizeSheet> {
             children: [
               Expanded(
                 child: _SideField(
-                  label: 'Genişlik',
+                  label: l10n.sizeWidth,
                   controller: _widthController,
                   onChanged: () => setState(() {}),
                 ),
@@ -127,7 +130,7 @@ class _CustomSizeSheetState extends State<CustomSizeSheet> {
               ),
               Expanded(
                 child: _SideField(
-                  label: 'Yükseklik',
+                  label: l10n.sizeHeight,
                   controller: _heightController,
                   onChanged: () => setState(() {}),
                 ),
@@ -136,7 +139,7 @@ class _CustomSizeSheetState extends State<CustomSizeSheet> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Her kenar ${CanvasSize.minSide}–${CanvasSize.maxSide} piksel arasında olmalı.',
+            l10n.customSizeRange(CanvasSize.minSide, CanvasSize.maxSide),
             style: TextStyle(
               fontSize: 13,
               color: _isValid ? ShootlyColors.muted : theme.colorScheme.error,
@@ -145,7 +148,7 @@ class _CustomSizeSheetState extends State<CustomSizeSheet> {
           const SizedBox(height: 20),
           FilledButton(
             onPressed: _isValid ? _submit : null,
-            child: const Text('Uygula'),
+            child: Text(l10n.apply),
           ),
         ],
       ),

@@ -14,6 +14,7 @@ import '../../core/widgets/permission_sheet.dart';
 import '../../core/widgets/shootly_wordmark.dart';
 import '../editor/editor_page.dart';
 import '../settings/settings_page.dart';
+import '../../app/l10n.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -59,13 +60,12 @@ class HomePage extends StatelessWidget {
                   ],
                   const Spacer(),
                   Text(
-                    'Çek.\nGerisini Shootly\nhalleder.',
+                    context.l10n.homeHeadline,
                     style: theme.textTheme.displaySmall?.copyWith(height: 1.08),
                   ),
                   const SizedBox(height: 14),
                   Text(
-                    'Arka plan silinir, ürün beyaz zemine oturur ve '
-                    'pazaryeri ölçüsünde kaydedilir.',
+                    context.l10n.homeSubtitle,
                     style: theme.textTheme.bodyLarge?.copyWith(
                       color: ShootlyColors.muted,
                       height: 1.45,
@@ -77,7 +77,9 @@ class HomePage extends StatelessWidget {
                       icon: _hasCamera
                           ? Icons.photo_camera_rounded
                           : Icons.add_photo_alternate_rounded,
-                      label: _hasCamera ? 'Dokun ve çek' : 'Fotoğraf seç',
+                      label: _hasCamera
+                          ? context.l10n.shutterTapToShoot
+                          : context.l10n.shutterPickPhoto,
                       onTap: () => _hasCamera
                           ? _pickFromCamera(context)
                           : _pickFromGallery(context, multiple: isPro),
@@ -92,8 +94,10 @@ class HomePage extends StatelessWidget {
                         icon: const Icon(Icons.photo_library_outlined, size: 20),
                         label: Text(
                           isPro
-                              ? 'Galeriden seç (en fazla ${AppConfig.maxPhotosPerProduct})'
-                              : 'Galeriden seç',
+                              ? context.l10n.pickFromGalleryMax(
+                                  AppConfig.maxPhotosPerProduct,
+                                )
+                              : context.l10n.pickFromGallery,
                         ),
                       ),
                     ),
@@ -170,7 +174,7 @@ class HomePage extends StatelessWidget {
         await showPermissionSheet(context, permission);
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Fotoğraf alınamadı. Tekrar dene.')),
+          SnackBar(content: Text(context.l10n.photoPickFailed)),
         );
       }
       return null;
@@ -204,14 +208,14 @@ class _TopBar extends StatelessWidget {
         const ShootlyWordmark(),
         const Spacer(),
         if (isPro)
-          const _Pill(
-            label: 'PRO',
+          _Pill(
+            label: context.l10n.proBadge,
             background: ShootlyColors.ink,
             foreground: Colors.white,
           )
         else
           _Pill(
-            label: "Pro'ya geç",
+            label: context.l10n.proUpgrade,
             icon: Icons.bolt_rounded,
             background: ShootlyColors.surface,
             foreground: ShootlyColors.ink,
@@ -219,7 +223,7 @@ class _TopBar extends StatelessWidget {
           ),
         const SizedBox(width: 4),
         IconButton(
-          tooltip: 'Ayarlar',
+          tooltip: context.l10n.settings,
           onPressed: onSettings,
           icon: const Icon(Icons.tune_rounded),
         ),
@@ -337,8 +341,8 @@ class _UsagePill extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final message = remaining > 0
-        ? 'Bugün $remaining ücretsiz hakkın var'
-        : 'Bugünkü hakların bitti, yarın yenilenir';
+        ? context.l10n.usageRemaining(remaining)
+        : context.l10n.usageExhausted;
     return Container(
       padding: const EdgeInsets.fromLTRB(18, 6, 6, 6),
       decoration: BoxDecoration(
@@ -356,7 +360,10 @@ class _UsagePill extends StatelessWidget {
               ),
             ),
           ),
-          TextButton(onPressed: onUpgrade, child: const Text('Sınırsız yap')),
+          TextButton(
+            onPressed: onUpgrade,
+            child: Text(context.l10n.usageUpgrade),
+          ),
         ],
       ),
     );
@@ -374,9 +381,9 @@ class _DevModeNote extends StatelessWidget {
         color: ShootlyColors.surface,
         borderRadius: BorderRadius.circular(14),
       ),
-      child: const Text(
-        "Geliştirme modu: \"Pro'ya geç\" ödeme almadan Pro'yu açar.",
-        style: TextStyle(
+      child: Text(
+        context.l10n.devModeNote,
+        style: const TextStyle(
           color: ShootlyColors.muted,
           fontWeight: FontWeight.w600,
           fontSize: 13,

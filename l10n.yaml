@@ -1,0 +1,10 @@
+# flutter gen-l10n ayarları. Metinler lib/l10n/*.arb dosyalarında; ana dil Türkçe.
+arb-dir: lib/l10n
+template-arb-file: app_tr.arb
+output-localization-file: app_localizations.dart
+output-class: AppLocalizations
+nullable-getter: false
+header: |
+  /// Otomatik üretilmiş çeviri kodu (flutter gen-l10n); elle düzenlemeyin.
+  /// Metinler lib/l10n/app_tr.arb ve app_en.arb dosyalarındadır.
+  library;

@@ -16,20 +16,26 @@ class EditorPhoto {
     required this.sourcePath,
     this.cutout,
     this.status = PhotoStatus.processing,
-    this.error,
+    this.failure,
   });
 
   final String sourcePath;
   final Cutout? cutout;
   final PhotoStatus status;
-  final String? error;
 
-  EditorPhoto copyWith({Cutout? cutout, PhotoStatus? status, String? error}) {
+  /// İşlem başarısızsa nedeni; metni ekran seçili dilde üretir.
+  final RemovalFailure? failure;
+
+  EditorPhoto copyWith({
+    Cutout? cutout,
+    PhotoStatus? status,
+    RemovalFailure? failure,
+  }) {
     return EditorPhoto(
       sourcePath: sourcePath,
       cutout: cutout ?? this.cutout,
       status: status ?? this.status,
-      error: error,
+      failure: failure,
     );
   }
 }
@@ -96,16 +102,16 @@ class EditorController extends ChangeNotifier {
         _photos[index].copyWith(cutout: cutout, status: PhotoStatus.ready),
       );
     } on BackgroundRemovalException catch (error) {
-      _fail(index, error.message);
+      _fail(index, error.reason);
     } catch (_) {
-      _fail(index, 'Fotoğraf işlenemedi. Tekrar dene.');
+      _fail(index, RemovalFailure.failed);
     }
   }
 
-  void _fail(int index, String message) {
+  void _fail(int index, RemovalFailure failure) {
     _replace(
       index,
-      _photos[index].copyWith(status: PhotoStatus.failed, error: message),
+      _photos[index].copyWith(status: PhotoStatus.failed, failure: failure),
     );
   }
 

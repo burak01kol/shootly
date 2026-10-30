@@ -1,0 +1,168 @@
+{
+  "@@locale": "tr",
+  "proUpgrade": "Pro'ya geç",
+  "proBadge": "PRO",
+  "retry": "Tekrar dene",
+  "share": "Paylaş",
+  "close": "Kapat",
+  "settings": "Ayarlar",
+  "homeHeadline": "Çek.\nGerisini Shootly\nhalleder.",
+  "homeSubtitle": "Arka plan silinir, ürün beyaz zemine oturur ve pazaryeri ölçüsünde kaydedilir.",
+  "shutterTapToShoot": "Dokun ve çek",
+  "shutterPickPhoto": "Fotoğraf seç",
+  "pickFromGallery": "Galeriden seç",
+  "pickFromGalleryMax": "Galeriden seç (en fazla {count})",
+  "@pickFromGalleryMax": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "photoPickFailed": "Fotoğraf alınamadı. Tekrar dene.",
+  "usageRemaining": "Bugün {count} ücretsiz hakkın var",
+  "@usageRemaining": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "usageExhausted": "Bugünkü hakların bitti, yarın yenilenir",
+  "usageUpgrade": "Sınırsız yap",
+  "devModeNote": "Geliştirme modu: \"Pro'ya geç\" ödeme almadan Pro'yu açar.",
+  "onboardingSkip": "Geç",
+  "onboardingNext": "Devam",
+  "onboardingStart": "Hadi başlayalım",
+  "onboarding1Title": "Tek dokunuşla çek.",
+  "onboarding1Body": "Ürününü telefonunla çek ya da galeriden seç. Hepsi bu kadar.",
+  "onboarding2Title": "Arka plan saniyede gider.",
+  "onboarding2Body": "Yapay zekâ ürünü ayırır ve temiz beyaz zemine oturtur. İnternet gerekmez.",
+  "onboarding3Title": "Pazaryerine hazır.",
+  "onboarding3Body": "Trendyol, Hepsiburada, n11 ve Amazon ölçülerinde, barkodla adlandırılıp galerine kaydedilir.",
+  "editorTitleSingle": "Önizleme",
+  "editorTitleMultiple": "{count} fotoğraf",
+  "@editorTitleMultiple": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "barcodeHint": "Barkod veya ürün kodu (isteğe bağlı)",
+  "exportFailed": "Görseller hazırlanamadı. Tekrar dene.",
+  "buttonRemoving": "Arka plan siliniyor…",
+  "buttonPreparing": "Hazırlanıyor…",
+  "buttonNoReady": "Hazır fotoğraf yok",
+  "buttonExport": "Hazırla ve kaydet",
+  "buttonExportCount": "Hazırla ve kaydet ({count})",
+  "@buttonExportCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "removalNoSubject": "Fotoğrafta ürün bulunamadı. Ürünü ortalayıp tekrar çek.",
+  "removalFailed": "Fotoğraf işlenemedi. Tekrar dene.",
+  "sectionSize": "ÖLÇÜ",
+  "sectionBackdrop": "ZEMİN",
+  "sizeOriginal": "Orijinal",
+  "sizeCustom": "Özel",
+  "sizeMatchesProduct": "Ürün oranında",
+  "floorShadow": "Zemin gölgesi",
+  "backdropWhite": "Beyaz",
+  "backdropLightGrey": "Açık gri",
+  "backdropCream": "Krem",
+  "backdropSky": "Mavi",
+  "backdropBlush": "Pembe",
+  "backdropBlack": "Siyah",
+  "customSizeTitle": "Özel ölçü",
+  "customSizeSubtitle": "Hazır bir oran seç ya da ölçüyü kendin yaz.",
+  "presetSquare": "Kare",
+  "presetVertical": "Dikey",
+  "presetPortrait": "Portre",
+  "presetStory": "Hikâye",
+  "presetLandscape": "Yatay",
+  "sizeWidth": "Genişlik",
+  "sizeHeight": "Yükseklik",
+  "customSizeRange": "Her kenar {min}–{max} piksel arasında olmalı.",
+  "@customSizeRange": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "apply": "Uygula",
+  "resultTitle": "Hazır!",
+  "resultSaved": "{count} görsel galerinde, {album} albümünde.",
+  "@resultSaved": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "album": {
+        "type": "String"
+      }
+    }
+  },
+  "resultDenied": "{count} görsel hazır. Galeriye kaydetmek için izin gerekiyor; istersen \"Paylaş\" ile de gönderebilirsin.",
+  "@resultDenied": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultFailed": "{count} görsel hazır, ancak galeriye kaydedilemedi.",
+  "@resultFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "grantAndSave": "İzin ver ve kaydet",
+  "retrySave": "Tekrar kaydet",
+  "newShoot": "Yeni çekim",
+  "proActive": "Shootly Pro aktif",
+  "proTitle": "Shootly Pro",
+  "perkUnlimited": "Sınırsız günlük çekim",
+  "perkSizes": "Tüm pazaryeri ölçüleri ve özel ölçü",
+  "perkBackdrops": "Renkli zeminler ve zemin gölgesi",
+  "perkBatch": "Tek seferde {count} fotoğraf",
+  "@perkBatch": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "subscriptionTerms": "Abonelik, dönem bitmeden en az 24 saat önce iptal edilmezse otomatik yenilenir. App Store hesap ayarlarından yönetebilir ve iptal edebilirsin.",
+  "groupAccount": "HESAP",
+  "restorePurchases": "Satın alımları geri yükle",
+  "restoreSuccess": "Pro aboneliğin geri yüklendi.",
+  "restoreNone": "Geri yüklenecek bir abonelik bulunamadı.",
+  "groupLegal": "YASAL VE DESTEK",
+  "privacyPolicy": "Gizlilik politikası",
+  "termsOfUse": "Kullanım koşulları",
+  "support": "Destek",
+  "linkFailed": "Bağlantı açılamadı.",
+  "groupApp": "UYGULAMA",
+  "language": "Dil",
+  "replayOnboarding": "Tanıtımı tekrar göster",
+  "version": "Sürüm",
+  "privacyNote": "Fotoğrafların cihazında işlenir; hiçbir sunucuya gönderilmez.",
+  "permCameraTitle": "Kamera izni kapalı",
+  "permCameraBody": "Ürün fotoğrafı çekebilmek için Shootly'nin kameraya erişmesi gerekiyor. Fotoğraflar yalnızca cihazında işlenir, hiçbir yere gönderilmez.",
+  "permPhotosTitle": "Fotoğraflara erişim kapalı",
+  "permPhotosBody": "Galeriden ürün fotoğrafı seçebilmek için fotoğraflarına erişim izni gerekiyor.",
+  "permSaveTitle": "Galeriye kaydetme izni kapalı",
+  "permSaveBody": "Hazırlanan görselleri galerine kaydedebilmek için izin gerekiyor. İzin vermesen de görselleri \"Paylaş\" ile gönderebilirsin.",
+  "openSettings": "Ayarları aç",
+  "notNow": "Şimdi değil"
+}

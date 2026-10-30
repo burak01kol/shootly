@@ -1,5 +1,5 @@
 /// Küçük, kalıcı kullanıcı tercihlerinin servisi (`SharedPreferences`).
-/// Onboarding'in görülüp görülmediğini ve son kullanılan dışa aktarma ayarlarını saklar.
+/// Onboarding durumunu, uygulama dilini ve son kullanılan dışa aktarma ayarlarını saklar.
 library;
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +13,7 @@ class AppPreferences {
   const AppPreferences(this._prefs);
 
   static const _onboardingKey = 'onboarding.seen';
+  static const _languageKey = 'app.language';
   static const _sizeModeKey = 'export.sizeMode';
   static const _marketplaceKey = 'export.marketplace';
   static const _customWidthKey = 'export.customWidth';
@@ -27,6 +28,12 @@ class AppPreferences {
   Future<void> markOnboardingSeen() => _prefs.setBool(_onboardingKey, true);
 
   Future<void> resetOnboarding() => _prefs.remove(_onboardingKey);
+
+  /// Seçilen dilin kodu ('tr', 'en'); hiç seçilmediyse null.
+  String? get languageCode => _prefs.getString(_languageKey);
+
+  Future<void> saveLanguageCode(String code) =>
+      _prefs.setString(_languageKey, code);
 
   /// Son kaydedilen ayarlar; hiç kaydedilmemiş ya da bozuk alanlar varsayılana döner.
   ExportSettings get lastExportSettings {

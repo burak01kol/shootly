@@ -6,39 +6,29 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/theme.dart';
+import '../../app/l10n.dart';
 
 /// Uygulamanın kullandığı izinler.
 enum AppPermission {
-  camera(
-    icon: Icons.photo_camera_outlined,
-    title: 'Kamera izni kapalı',
-    message: 'Ürün fotoğrafı çekebilmek için Shootly\'nin kameraya erişmesi '
-        'gerekiyor. Fotoğraflar yalnızca cihazında işlenir, hiçbir yere '
-        'gönderilmez.',
-  ),
-  photos(
-    icon: Icons.photo_library_outlined,
-    title: 'Fotoğraflara erişim kapalı',
-    message: 'Galeriden ürün fotoğrafı seçebilmek için fotoğraflarına erişim '
-        'izni gerekiyor.',
-  ),
-  saveToGallery(
-    icon: Icons.download_outlined,
-    title: 'Galeriye kaydetme izni kapalı',
-    message: 'Hazırlanan görselleri galerine kaydedebilmek için izin '
-        'gerekiyor. İzin vermesen de görselleri "Paylaş" ile '
-        'gönderebilirsin.',
-  );
+  camera(Icons.photo_camera_outlined),
+  photos(Icons.photo_library_outlined),
+  saveToGallery(Icons.download_outlined);
 
-  const AppPermission({
-    required this.icon,
-    required this.title,
-    required this.message,
-  });
+  const AppPermission(this.icon);
 
   final IconData icon;
-  final String title;
-  final String message;
+
+  String title(AppLocalizations l10n) => switch (this) {
+        AppPermission.camera => l10n.permCameraTitle,
+        AppPermission.photos => l10n.permPhotosTitle,
+        AppPermission.saveToGallery => l10n.permSaveTitle,
+      };
+
+  String message(AppLocalizations l10n) => switch (this) {
+        AppPermission.camera => l10n.permCameraBody,
+        AppPermission.photos => l10n.permPhotosBody,
+        AppPermission.saveToGallery => l10n.permSaveBody,
+      };
 }
 
 /// Pencereyi açar; kullanıcı "Ayarları aç" derse sistem ayarlarına gider.
@@ -74,12 +64,12 @@ Future<void> showPermissionSheet(
             ),
             const SizedBox(height: 18),
             Text(
-              permission.title,
+              permission.title(sheetContext.l10n),
               style: Theme.of(sheetContext).textTheme.headlineSmall,
             ),
             const SizedBox(height: 8),
             Text(
-              permission.message,
+              permission.message(sheetContext.l10n),
               style: const TextStyle(color: ShootlyColors.muted, height: 1.45),
             ),
             const SizedBox(height: 24),
@@ -88,14 +78,14 @@ Future<void> showPermissionSheet(
                 Navigator.of(sheetContext).pop();
                 AppSettings.openAppSettings();
               },
-              child: const Text('Ayarları aç'),
+              child: Text(sheetContext.l10n.openSettings),
             ),
             const SizedBox(height: 8),
             TextButton(
               onPressed: () => Navigator.of(sheetContext).pop(),
-              child: const Text(
-                'Şimdi değil',
-                style: TextStyle(color: ShootlyColors.muted),
+              child: Text(
+                sheetContext.l10n.notNow,
+                style: const TextStyle(color: ShootlyColors.muted),
               ),
             ),
           ],

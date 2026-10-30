@@ -10,7 +10,9 @@ import '../../../app/theme.dart';
 import '../../../core/models/canvas_size.dart';
 import '../../../core/models/cutout.dart';
 import '../../../core/models/export_settings.dart';
+import '../../../core/services/background_remover.dart';
 import '../editor_controller.dart';
+import '../../../app/l10n.dart';
 
 /// Dışa aktarılacak görselin canlı önizlemesi. Asıl görsel
 /// ImageComposer ile aynı oranlarla üretilir.
@@ -53,7 +55,9 @@ class PreviewCanvas extends StatelessWidget {
               child: switch (photo.status) {
                 PhotoStatus.processing => const _Processing(),
                 PhotoStatus.failed => _Failed(
-                    message: photo.error ?? 'Fotoğraf işlenemedi.',
+                    message: photo.failure == RemovalFailure.noSubject
+                        ? context.l10n.removalNoSubject
+                        : context.l10n.removalFailed,
                     onRetry: onRetry,
                   ),
                 PhotoStatus.ready when cutout != null => _Subject(
@@ -137,15 +141,15 @@ class _Processing extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          CircularProgressIndicator(color: ShootlyColors.ink),
-          SizedBox(height: 14),
+          const CircularProgressIndicator(color: ShootlyColors.ink),
+          const SizedBox(height: 14),
           Text(
-            'Arka plan siliniyor…',
-            style: TextStyle(
+            context.l10n.buttonRemoving,
+            style: const TextStyle(
               color: ShootlyColors.muted,
               fontWeight: FontWeight.w600,
             ),
@@ -184,7 +188,7 @@ class _Failed extends StatelessWidget {
             OutlinedButton(
               onPressed: onRetry,
               style: OutlinedButton.styleFrom(minimumSize: const Size(140, 46)),
-              child: const Text('Tekrar dene'),
+              child: Text(context.l10n.retry),
             ),
           ],
         ),

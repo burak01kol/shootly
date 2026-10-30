@@ -10,6 +10,7 @@ import '../../../core/models/canvas_size.dart';
 import '../../../core/models/export_settings.dart';
 import '../../../core/models/marketplace.dart';
 import '../../../core/widgets/pro_lock_chip.dart';
+import '../../../app/l10n.dart';
 
 class SettingsPanel extends StatelessWidget {
   const SettingsPanel({
@@ -30,10 +31,11 @@ class SettingsPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mode = settings.sizeMode;
+    final l10n = context.l10n;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SectionTitle('ÖLÇÜ', trailing: _sizeSummary),
+        _SectionTitle(l10n.sectionSize, trailing: _sizeSummary(l10n)),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           clipBehavior: Clip.none,
@@ -51,14 +53,14 @@ class SettingsPanel extends StatelessWidget {
                   )),
                 ),
               _sizeChip(
-                label: 'Orijinal',
+                label: l10n.sizeOriginal,
                 selected: mode == SizeMode.original,
                 locked: false,
                 onSelected: () =>
                     onChanged(settings.copyWith(sizeMode: SizeMode.original)),
               ),
               _sizeChip(
-                label: 'Özel',
+                label: l10n.sizeCustom,
                 selected: mode == SizeMode.custom,
                 locked: !isPro,
                 onSelected: onCustomSize,
@@ -67,7 +69,7 @@ class SettingsPanel extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 24),
-        const _SectionTitle('ZEMİN'),
+        _SectionTitle(l10n.sectionBackdrop),
         Wrap(
           spacing: 12,
           runSpacing: 12,
@@ -108,8 +110,8 @@ class SettingsPanel extends StatelessWidget {
     );
   }
 
-  String get _sizeSummary => switch (settings.sizeMode) {
-        SizeMode.original => 'Ürün oranında',
+  String _sizeSummary(AppLocalizations l10n) => switch (settings.sizeMode) {
+        SizeMode.original => l10n.sizeMatchesProduct,
         _ => '${settings.fixedCanvas}',
       };
 }
@@ -159,7 +161,7 @@ class _ChipSlotState extends State<_ChipSlot> {
 }
 
 class _SectionTitle extends StatelessWidget {
-  /// [text] Türkçe büyük harf kuralı (i → İ) için hazır büyük harfle verilir.
+  /// [text] dilin büyük harf kuralı için (Türkçede i → İ) çeviride hazır büyük harfle gelir.
   const _SectionTitle(this.text, {this.trailing});
 
   final String text;
@@ -210,10 +212,10 @@ class _ShadowToggle extends StatelessWidget {
         children: [
           const Icon(Icons.blur_on_rounded, color: ShootlyColors.ink),
           const SizedBox(width: 12),
-          const Expanded(
+          Expanded(
             child: Text(
-              'Zemin gölgesi',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+              context.l10n.floorShadow,
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
             ),
           ),
           if (locked)
@@ -231,6 +233,16 @@ class _ShadowToggle extends StatelessWidget {
     );
   }
 }
+
+String _backdropName(AppLocalizations l10n, Backdrop backdrop) =>
+    switch (backdrop) {
+      Backdrop.white => l10n.backdropWhite,
+      Backdrop.lightGrey => l10n.backdropLightGrey,
+      Backdrop.cream => l10n.backdropCream,
+      Backdrop.sky => l10n.backdropSky,
+      Backdrop.blush => l10n.backdropBlush,
+      Backdrop.black => l10n.backdropBlack,
+    };
 
 class _Swatch extends StatelessWidget {
   const _Swatch({
@@ -251,10 +263,11 @@ class _Swatch extends StatelessWidget {
   Widget build(BuildContext context) {
     final isLight = backdrop.color.computeLuminance() > 0.5;
     final iconColor = isLight ? ShootlyColors.ink : Colors.white;
+    final name = _backdropName(context.l10n, backdrop);
     return Semantics(
       button: true,
       selected: selected,
-      label: locked ? '${backdrop.label} (Pro)' : backdrop.label,
+      label: locked ? '$name (Pro)' : name,
       child: InkResponse(
         onTap: onTap,
         radius: _size / 2 + 4,

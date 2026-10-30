@@ -9,13 +9,19 @@ import 'package:native_cutout/native_cutout.dart';
 
 import '../models/cutout.dart';
 
-class BackgroundRemovalException implements Exception {
-  const BackgroundRemovalException(this.message);
+/// Arka plan silmenin neden başarısız olduğu; ekran bunu seçili dilde anlatır.
+enum RemovalFailure { noSubject, failed }
 
-  final String message;
+class BackgroundRemovalException implements Exception {
+  const BackgroundRemovalException(this.reason, [this.detail]);
+
+  final RemovalFailure reason;
+
+  /// Geliştirici için ham hata ayrıntısı; kullanıcıya gösterilmez.
+  final String? detail;
 
   @override
-  String toString() => message;
+  String toString() => 'BackgroundRemovalException($reason, $detail)';
 }
 
 /// Fotoğraftan ürünü ayıran servis. Testlerde sahte sürümü verilebilir.
@@ -50,16 +56,14 @@ class NativeBackgroundRemover implements BackgroundRemover {
       return Cutout(path: result.path, width: width, height: height);
     }
     if (result is CutoutFailure) {
-      throw BackgroundRemovalException(_messageFor(result));
+      throw BackgroundRemovalException(
+        result.code == CutoutErrorCode.noSubjectFound
+            ? RemovalFailure.noSubject
+            : RemovalFailure.failed,
+        result.message,
+      );
     }
-    throw const BackgroundRemovalException('Fotoğraf işlenemedi.');
-  }
-
-  static String _messageFor(CutoutFailure failure) {
-    if (failure.code == CutoutErrorCode.noSubjectFound) {
-      return 'Fotoğrafta ürün bulunamadı. Ürünü ortalayıp tekrar çek.';
-    }
-    return 'Fotoğraf işlenemedi: ${failure.message}';
+    throw const BackgroundRemovalException(RemovalFailure.failed);
   }
 
   static Future<(int, int)> _readImageSize(String path) async {
