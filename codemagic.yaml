@@ -63,7 +63,9 @@ workflows:
     publishing:
       app_store_connect:
         auth: integration
-        submit_to_testflight: true
+        # Yalnızca App Store Connect'e yükler; beta incelemesine göndermez
+        # (o adım "Test Information" ister). Sürüm, App Store Connect'ten seçilir.
+        submit_to_testflight: false
 
   ios-appstore:
     name: iOS — App Store (inceleme)
@@ -108,4 +110,6 @@ workflows:
     publishing:
       app_store_connect:
         auth: integration
-        submit_to_testflight: true
+        # Yalnızca App Store Connect'e yükler; beta incelemesine göndermez
+        # (o adım "Test Information" ister). Sürüm, App Store Connect'ten seçilir.
+        submit_to_testflight: false
