@@ -26,7 +26,7 @@ Pro'yu açar, böylece tüm özellikler denenebilir.
 Gerçek ödeme için:
 1. [app.revenuecat.com](https://app.revenuecat.com) → proje oluştur, Google Play uygulamasını bağla.
 2. Ürünler: `shootly_pro_monthly` (aylık ₺129,99) ve `shootly_pro_yearly` (yıllık ₺699,99, 3 gün ücretsiz deneme). Entitlement kimliği: **`pro`**.
-   Fiyatların gerekçesi ve App Store adımları: `APP_STORE.md`.
+   Fiyatların gerekçesi ve App Store adımları: `belgeler/APP_STORE_YAYIN_REHBERI.md`.
 3. Paywalls bölümünden paywall tasarla ve **yayınla**.
 4. Çalıştır: `flutter run --dart-define=RC_ANDROID_KEY=goog_xxxxx`
 

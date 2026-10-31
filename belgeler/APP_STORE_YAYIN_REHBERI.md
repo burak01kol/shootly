@@ -136,7 +136,7 @@ imzalar ve App Store Connect'e yükler.
 > Başka şirketlerin marka adlarını (Trendyol, Hepsiburada, n11, Amazon…) anahtar kelimelere
 > **yazma**: Kural 2.3.7 gereği red sebebidir. Açıklamada "… ölçülerinde" diye bilgi vermek serbesttir.
 
-**Ekran görüntüleri:** `store/screenshots/` (iPhone 6.9", 1320 × 2868) — en az 3, en fazla 10.
+**Ekran görüntüleri:** `store/ekran_goruntuleri/` (iPhone 6.9", 1320 × 2868) — en az 3, en fazla 10.
 
 ## 9. App Privacy (gizlilik etiketi)
 

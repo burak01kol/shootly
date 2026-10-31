@@ -1,5 +1,5 @@
 # Shootly iOS derlemeleri (Codemagic bulut Mac'i).
-# Kurulum adımları: APP_STORE.md
+# Kurulum adımları: belgeler/APP_STORE_YAYIN_REHBERI.md
 #
 # ios-testflight : Kendi iPhone'unda denemek için. RevenueCat anahtarı yoksa
 #                  geliştirme modunda açılır ("Pro'ya geç" ödemesiz Pro açar).
